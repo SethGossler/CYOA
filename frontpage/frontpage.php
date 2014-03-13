@@ -57,9 +57,12 @@
 				<div id="nextChoices">
 					<div class="innerBox">
 						<div class="index option one">
-							<a href="/frontpage/page2.html">Go on an adventure!</a>
+							<a href="/readID/23">Go on an adventure!</a>
 						</div>
 						<div class="index option two">
+							<a href="/create">Make an adventure!</a>
+						</div>
+						<div class="index option three">
 							<a href="/frontpage/page4.html">Sign up for Beta Access!</a>
 						</div>
 					</div>
