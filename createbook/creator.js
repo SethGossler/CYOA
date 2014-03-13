@@ -114,7 +114,12 @@ $(function(){
 			return '/sync/indexer/';
 		},
 
+		initialize: function() {
+
+		},
+
 		syncToServer: function() {
+			$readLink = $(".readLink");
 			var response = this.save(this.model,{
 				success:function(model, response, options){
 					/*
@@ -125,6 +130,7 @@ $(function(){
 					{
 						console.log("saved" + response.id);
 						model.set({id:response.id});
+						$readLink.html('<a href="cyoa.seth.today/readID/'+response.id+'">Link Here!</a>');
 					}
 					if(response.action == "update")
 					{
