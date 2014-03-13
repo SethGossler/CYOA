@@ -1,7 +1,4 @@
-CYOA
-====
-
-# Choose Your Own Adventure App
+# CYOA - Choose Your Own Adventure
 
 This Choose Your Own Adventure web-app aims to provide a foundation for a CYOA community. At the moment, there is a CYOA Reader, and Maker.
 
@@ -11,5 +8,5 @@ This Choose Your Own Adventure web-app aims to provide a foundation for a CYOA c
 * Story Genres
 * Community Functions (tbd)
 
-This project is really just for fun. If you are interested in joining, please feel free to ask!
+This project is really just for fun. If you are interested in joining, please feel free to ask how!
 
