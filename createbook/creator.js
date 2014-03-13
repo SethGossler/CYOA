@@ -130,7 +130,7 @@ $(function(){
 					{
 						console.log("saved" + response.id);
 						model.set({id:response.id});
-						$readLink.html('<a href="cyoa.seth.today/readID/'+response.id+'">Link Here!</a>');
+						$readLink.html('<a href="http://cyoa.seth.today/readID/'+response.id+'">Link Here!</a>');
 					}
 					if(response.action == "update")
 					{
