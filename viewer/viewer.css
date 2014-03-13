@@ -1,0 +1,61 @@
+body {font-family: 'Josefin Slab', serif;}
+
+.content{
+	margin-top:30px;
+
+}
+
+p {
+	font-size:2em;
+	line-height:180%;
+	font-family: 'Josefin Slab', serif;
+	margin-top:30px;
+
+}
+
+.title {
+	border-bottom: 1px solid #333;
+	font-size:2em;
+	text-align: center;
+	font-family: 'Josefin Slab', serif;
+	font-weight: 600;
+	margin-top:15px;
+}
+
+.option {
+	color: #999;
+	font-size: 1.5em;
+	font-weight:600;
+	clear:both;
+	margin:10px 0;
+	line-height: 160%;
+	padding:11px;
+	text-align: center;
+}
+
+.option:hover {
+	padding:10px;
+	color:#333; 
+	border:1px solid #333;
+	cursor: pointer;
+}
+
+ul {
+	list-style: none;
+}
+
+a:link {color:#999; text-decoration: none;}      /* unvisited link */
+a:visited {color:#999;}  /* visited link */
+a:hover {color:#333; border:1px solid #333;}  /* mouse over link */
+a:active {color:#333;}  /* selected link */
+
+form {
+	font-size:1.5em;
+	line-height:180%;
+	margin-top:30px;
+}
+
+#backAPage {
+	font-size: 16px;
+	cursor: pointer;
+}
