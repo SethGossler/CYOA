@@ -119,7 +119,7 @@ $(function(){
 		},
 
 		syncToServer: function() {
-			$readLink = $(".readLink");
+			$readLink = $("#readLink");
 			var response = this.save(this.model,{
 				success:function(model, response, options){
 					/*
