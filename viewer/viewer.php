@@ -8,16 +8,16 @@
 		<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>	
 
 		<!-- Bootstrap Framework -->
-		<link rel="stylesheet" type="text/css" href="../../viewer/bootstrap.min.css">
-		<link rel="stylesheet" type="text/css" href="../../viewer/bootstrap-responsive.min.css">
-		<link rel="stylesheet" type="text/css" href="/common/CSS/viewer.css"></link>
+		<link rel="stylesheet" type="text/css" href="../viewer/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="../viewer/bootstrap-responsive.min.css">
+		<link rel="stylesheet" type="text/css" href="../common/CSS/viewer.css"></link>
 
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-		<script src="/common/JS/underscore-min.js"></script>
-		<script src="/common/JS/backbone-min.js"></script>
-		<script src="/common/JS/views.js"></script>
-		<script src="/common/JS/models.js"></script>
-		<script src="../../viewer/viewer.js"></script>
+		<script src="../common/JS/underscore-min.js"></script>
+		<script src="../common/JS/backbone-min.js"></script>
+		<script src="../common/JS/views.js"></script>
+		<script src="../common/JS/models.js"></script>
+		<script src="../viewer/viewer.js"></script>
 		<!--loading data-->
 		<script>
 			<?php

@@ -7,10 +7,10 @@
 		<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>	
 		
 		<!-- Bootstrap Framework -->
-		<link rel="stylesheet" type="text/css" href="../../viewer/bootstrap.min.css">
-		<link rel="stylesheet" type="text/css" href="../../viewer/bootstrap-responsive.min.css">
-		<link rel="stylesheet" type="text/css" href="/common/CSS/viewer.css"></link>
-		<link rel="stylesheet" type="text/css" href="../../frontpage/frontpage.css"></link>
+		<link rel="stylesheet" type="text/css" href="viewer/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="viewer/bootstrap-responsive.min.css">
+		<link rel="stylesheet" type="text/css" href="common/CSS/viewer.css"></link>
+		<link rel="stylesheet" type="text/css" href="frontpage/frontpage.css"></link>
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 		<!-- Not Ready For This
 		<script src="../../frontpage/frontpage.js"></script> -->
@@ -57,13 +57,13 @@
 				<div id="nextChoices">
 					<div class="innerBox">
 						<div class="index option one">
-							<a href="/readID/23">Go on an adventure!</a>
+							<a href="readID/23">Go on an adventure!</a>
 						</div>
 						<div class="index option two">
-							<a href="/create">Make an adventure!</a>
+							<a href="create">Make an adventure!</a>
 						</div>
 						<div class="index option three">
-							<a href="/frontpage/page4.html">Sign up for Beta Access!</a>
+							<a href="frontpage/page4.html">Sign up for Beta Access!</a>
 						</div>
 					</div>
 				</div>	

@@ -59,7 +59,7 @@ function addBook($book)
     global $conn;
 
     $authorID = 1;
-    $bookHashKey = 'a1b2'; //title
+    $bookHashKey = $book->title; //title
 
     //Add the book to the database
     $query = "INSERT INTO books(authorID, titleHash) VALUES (?,?)";
@@ -86,29 +86,25 @@ function updateBook($properBook)
     global $conn;
 
     $thisBookID = $properBook->id;
+    $thisBookTitle = $properBook->title;
     $pages = $properBook->pages;
-
-    $query = "INSERT INTO pages(choiceDialog, parentID, title, content, choices, booksID, pageNumber)
-    VALUES (?,?,?,?,?,?,?)
-    ON DUPLICATE KEY
-    UPDATE choiceDialog = ?, title= ?, content= ?, choices= ?";
-    //$query = "UPDATE pages SET choiceDialog = ?, title= ?, content= ?, choices= ? WHERE booksID = $thisBookID AND pageNumber = ?";
-
-    if (!($stmt = $conn->prepare($query))) 
-    {
-        echo "Prepare failed: (" . $conn->errno . ") " . $conn->error;
-    }
-    
     $choiceDialog ='a';
-    $title = 'a';
     $content = 'a';
     $choices = 'a';
     $pageNumber = 1;
     $parentID = 1;
-    $booksID = $thisBookID;
 
-    $stmt->bind_param('sisssiissss', $choiceDialog, $parentID, $title, $content, $choices, $booksID, $pageNumber, $choiceDialog, $title, $content, $choices);
-    //$stmt->bind_param('ssssi', $choiceDialog, $title, $content, $choices, $pageNumber);
+    $pagesQuery = "INSERT INTO pages(choiceDialog, parentID, title, content, choices, booksID, pageNumber)
+    VALUES (?,?,?,?,?,?,?)
+    ON DUPLICATE KEY
+    UPDATE choiceDialog = ?, title= ?, content= ?, choices= ?";
+
+    if (!($stmt = $conn->prepare($pagesQuery))) 
+    {
+        echo "Prepare failed: (" . $conn->errno . ") " . $conn->error;
+    }
+    
+    $stmt->bind_param('sisssiissss', $choiceDialog, $parentID, $thisBookTitle, $content, $choices, $thisBookID, $pageNumber, $choiceDialog, $title, $content, $choices);
 
     foreach ($pages as $page) 
     {
@@ -123,11 +119,6 @@ function updateBook($properBook)
     }
     $stmt->close();
     return true;
-    /*
-    * UPDATE where books.id = $properBook->id; -- this one not quite yet.
-    * UPDATE where pages.bookID = $properBook->id && pages.ID = currentPage.ID
-    */
-    
 }
 
 
@@ -296,14 +287,11 @@ $app->get('/sync/indexer/', function() use($app){
 $app->post('/sync/indexer/', function() use($app){
     $bookToAdd = $app->request();
     $bookToAdd = json_decode($bookToAdd->getBody());
-    //var_dump($bookToAdd);
-    $bookPages = $bookToAdd->pages;
-    $bookDetails = addBook($bookPages);
 
-    $bookID = $bookDetails['ID'];
-    addPages($bookPages,$bookID); 
+    $queryBook = "Add or update book in book table";
+    $queryPages = "Add or update pages in pages table";
 
-    echo "{\"id\": $bookID, \"action\":\"save\"}";//whatever I echo back here is picked up as JSOn on syncToServer's success callback
+    //addPages($bookPages,$bookID); 
 });
 
 $app->put('/sync/indexer/', function() use($app){
