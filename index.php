@@ -8,42 +8,8 @@ function addPages($book, $booksID)//bookID isn't in the book -- the server decid
 {
     global $conn;
 
-    /*Some pseudo code
-    *  Insert a new page, unless...   
-    *    if the books ID and page# are the same...
-    *       then update the row with the data
-    *           Data would be the choiceDialog, title, content, and choices.
-    */    
 
     $query = "INSERT INTO pages(choiceDialog, parentID, title, content, choices, booksID, pageNumber) VALUES (?,?,?,?,?,?,?)";
-
-    if (!($stmt = $conn->prepare($query))) 
-    {
-        echo "Prepare failed: (" . $conn->errno . ") " . $conn->error;
-    }
-    
-    $choiceDialog ='a';
-    $parentID = 1;
-    $title = 'a';
-    $content = 'a';
-    $choices = 'a';
-    $pageNumber = 1;
-
-    $stmt->bind_param('sisssii', $choiceDialog, $parentID, $title, $content, $choices, $booksID, $pageNumber);
-
-    foreach ($book as $page) 
-    {
-        $choiceDialog = $page->choiceDialog;
-        $parentID = $page->parentID;
-        $title = $page->title;
-        $content = $page->content;
-        $choices = json_encode($page->choices);
-        //var_dump($page->choices); 
-        //$booksID = $bookID;
-        $pageNumber = $page->id;
-        $stmt->execute();
-    }
-    $stmt->close();
 
     //var_dump($book);
 };
@@ -79,46 +45,50 @@ function addBook($book)
 };
 
 
-function updateBook($properBook)
+function syncBook($properBook)
 {
-
-    /*This is updating the pages, but we need to insert pages that don't exist yet in the database*/
     global $conn;
 
-    $thisBookID = $properBook->id;
-    $thisBookTitle = $properBook->title;
+    //For book
+    $booksID = $properBook->id;
+    $title = $properBook->title;
     $pages = $properBook->pages;
-    $choiceDialog ='a';
-    $content = 'a';
-    $choices = 'a';
-    $pageNumber = 1;
+    $author = $properBook->author;
+
+    //For Pages
+    $choiceDialog ="PH";
     $parentID = 1;
+    $pagetitle = "PH";
+    $content = "PH";
+    $booksID = 1;
+    $jsonID = 1;
 
-    $pagesQuery = "INSERT INTO pages(choiceDialog, parentID, title, content, choices, booksID, pageNumber)
-    VALUES (?,?,?,?,?,?,?)
+
+
+    $bookQuery = "INSERT INTO books(authorID, title)
+    VALUES (?,?)";
+    $stmt = $conn->prepare($bookQuery);
+    $stmt->bind_param("is", $author, $title);
+    $stmt->execute();
+    $booksID = $stmt->insert_id;
+
+    $pagesQuery = "INSERT INTO pages(choiceDialog, parentID, title, content, booksID, jsonID)
+    VALUES (?, ?, ?, ?, ?, ?)
     ON DUPLICATE KEY
-    UPDATE choiceDialog = ?, title= ?, content= ?, choices= ?";
+    UPDATE choiceDialog = ?, title= ?, content= ?";
+    $stmt = $conn->prepare($pagesQuery);
+    $stmt->bind_param("sissiisss", $choiceDialog, $parentID, $pagetitle, $content, $booksID, $jsonID, $choiceDialog, $pagetitle, $content);
 
-    if (!($stmt = $conn->prepare($pagesQuery))) 
-    {
-        echo "Prepare failed: (" . $conn->errno . ") " . $conn->error;
-    }
-    
-    $stmt->bind_param('sisssiissss', $choiceDialog, $parentID, $thisBookTitle, $content, $choices, $thisBookID, $pageNumber, $choiceDialog, $title, $content, $choices);
-
-    foreach ($pages as $page) 
-    {
-
+    foreach ($pages as $key => $page) { // $page was a JSON object
         $choiceDialog = $page->choiceDialog;
-        $parentID = $page->parentID;
-        $title = $page->title;
+        $parentID = $page->parentPage;
+        $pagetitle = $page->title;
         $content = $page->content;
-        $choices = json_encode($page->choices);
-        $pageNumber = $page->id;
+        $jsonID = $page->id;
         $stmt->execute();
     }
-    $stmt->close();
-    return true;
+
+    return array("result"=>"success", "bookID"=>$booksID);
 }
 
 
@@ -239,6 +209,40 @@ $app->get('/', function(){
     include 'frontpage/frontpage.php';
 });
 
+/*
+*Post: indexer
+*-This should save an entire "book".
+*-Retruns book ID
+*/
+$app->post('/sync/indexer/', function() use($app){
+    $bookToAdd = $app->request();
+    $bookToAdd = json_decode($bookToAdd->getBody()); 
+    $result = syncBook($bookToAdd);
+    if($result["result"]=="success") {
+        $bookID = $result["bookID"];
+        echo "{\"result\":\"success\", \"id\":\"$bookID\"}";
+    }
+    else {
+        echo "error";
+        var_dump($result);
+    }
+});
+
+$app->put('/sync/indexer/', function() use($app){
+    $bookToAdd = $app->request();
+    $bookToAdd = json_decode($bookToAdd->getBody()); 
+    $result = syncBook($bookToAdd);
+    if($result["result"]=="success") {
+        $bookID = $result["bookID"];
+        echo "{\"result\":\"success\", \"id\":\"$bookID\"}";
+    }
+    else {
+        echo "error";
+        var_dump($result);
+    }
+});
+
+
 //If the user is trying to read "nothing", sned them to index
 $app->get('/read/', function() use($app) {
     $app->redirect('/');
@@ -254,12 +258,8 @@ $app->get('/readID/:bookID', function($bookID){
 
 $app->get('/read/:bookHash', function($bookHash){
     global $conn;
-    //echo $bookHash;
-    $properBook = getBookWithHashTitle($bookHash);
-    //$properBook = getBookWithID($bookID);
-    
+    $properBook = getBookWithHashTitle($bookHash);    
     loadBookViewer($properBook);
-    /*Load the book given the ID*/
 });
 
 $app->get('/create/', function() use($app) {
@@ -276,39 +276,7 @@ $app->get('/sync/indexer/', function() use($app){
     var_dump($content);
 });
 
-/*
-*Post: indexer
-*-This should save an entire "book".
-*-Books don't make their own ID's, so in this stage,
-*books should be saved, and then a reply should be given
-*with the books new ID.
-*-It's ID could be the 
-*/
-$app->post('/sync/indexer/', function() use($app){
-    $bookToAdd = $app->request();
-    $bookToAdd = json_decode($bookToAdd->getBody());
 
-    $queryBook = "Add or update book in book table";
-    $queryPages = "Add or update pages in pages table";
-
-    //addPages($bookPages,$bookID); 
-});
-
-$app->put('/sync/indexer/', function() use($app){
-    $bookToUpdate = $app->request();
-    $bookToUpdate = json_decode($bookToUpdate->getBody());
-    $thisID = $bookToUpdate->id;
-
-
-    if(updateBook($bookToUpdate))
-    {
-       echo "{\"id\": $thisID,\"action\":\"update\"}";
-    }
-    else
-    {
-       echo "{\"id\": \"err\",\"action\":\"update error\"}";
-    }
-});
 
 $app->get('/user/', function() use($app){
     $userLoggedIn = $app->getCookie('user');

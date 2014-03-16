@@ -104,17 +104,14 @@ $(function(){
 
 		syncToServer: function() {
 
-
+			var that = this;
 			var response = this.save(this.model,{
 				success:function(model, response, options){
 
-					if(response.action == "save")
+					if(response.result == "success")
 					{
-						console.log("save");
-					}
-					if(response.action == "update")
-					{
-						console.log("updated");
+						console.log("wooh");
+						that.model.id = response.id;
 					}
 
 				},
@@ -132,8 +129,9 @@ $(function(){
 		toJSON: function() {
 			properBook = {
 				pages: this.model.toJSON(),
-				author: "me!",
-				title: this.model.title
+				author: 42,
+				title: this.model.title,
+				id: this.model.id
 			}
 
 			this.model.toJSON();
@@ -142,6 +140,7 @@ $(function(){
 	});
 
 	var bookCollection = Backbone.Collection.extend({
+		id:-1,
 		title: "title",
 		model: page,
 		bookMark: -1,
