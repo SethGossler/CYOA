@@ -20,7 +20,12 @@ $(function(){
 			"click #addChoice":"addChoice",
 			"click .create.index": "choiceSwap",
 			"blur input.dialog": "dialogChange",
-			"click #backAPage": "backAPage"
+			"click #backAPage": "backAPage",
+			"blur input#bookTitle": "titleChange"
+		},
+
+		titleChange: function(e){
+			this.model.bookMark.set("title", $(e.target).val());
 		},
 
 		contentChanged: function(){
@@ -140,7 +145,6 @@ $(function(){
 	});
 
 	var bookCollection = Backbone.Collection.extend({
-		id:-1,
 		title: "title",
 		model: page,
 		bookMark: -1,

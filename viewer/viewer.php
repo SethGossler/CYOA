@@ -20,42 +20,47 @@
 		<script src="../viewer/viewer.js"></script>
 		<!--loading data-->
 		<script>
-			<?php
-				echo "var loadedBook = ".json_encode($properBook);
-			?>
+
+			<?php echo "var loadedBook = ".json_encode($properBook); ?>
+
+			<?php echo "var loadedPages = ".json_encode($properBook["pages"]); ?>
+
 		</script>
 	</head>
 	<body>
 		<div class="container">
-			<div id="subPageHeader">
-				<a id="backAPage" class="back_btn">&lt;&nbsp;previous page</a>
-				<h1 class="subPageTitle">Choose Your Own Adventure</h1> 
-			</div>
-			<h1 id="bookTitle" class="title">Choose Your Own Adventure</h1>
-			<div class="content span8 offset2">
 
-				<div id="writingArea">
-					<script type="text/template" id="page">
+			<script type="text/template" id="viewer_tpl">
+				<div id="subPageHeader">
+					<a id="backAPage" class="back_btn">&lt;&nbsp;previous page</a>
+					<h1 class="subPageTitle">Choose Your Own Adventure</h1> 
+				</div>
+				<h1 id="bookTitle" class="title">Choose Your Own Adventure</h1>
+				<div class="content span8 offset2">
+
+					<div id="writingArea">
 						<!--<h1 class="title"><%- title %></h1>-->
 						<p>
 							<%= content %>
 						</p>
 						<!--<div class="pageNumber">
-							<%- id%>
 						</div>-->
-					</script>
-				</div>
-
-				<div id="nextChoices">
-					<div class="innerBox">
-						<script type="text/template" id="choiceTemplate">
-							<div class="index option">
-								<%- choiceDialog %>
-							</div>
-						</script>
 					</div>
-				</div>	
-			</div>
+
+					<div id="nextChoices">
+						<% _.each(choices, function(choice){ %>
+
+							<div data-id="<%= choice.id %>" class="innerBox">
+								<div data-id="<%= choice.id %>" class="index option">
+									<%- choice.title %>
+								</div>
+							</div>
+
+						<% }); %>
+					</div>	
+				</div>
+			</script>
+
 		</div>
 	</body>
 </html>

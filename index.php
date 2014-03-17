@@ -2,55 +2,11 @@
 require 'sqlSetup.php';
 require 'Slim/Slim.php';
 
-
-/*Helper functions*/
-function addPages($book, $booksID)//bookID isn't in the book -- the server decides the bookID (how do we keep track of this? Please respond ...)
-{
-    global $conn;
-
-
-    $query = "INSERT INTO pages(choiceDialog, parentID, title, content, choices, booksID, pageNumber) VALUES (?,?,?,?,?,?,?)";
-
-    //var_dump($book);
-};
-
-/*
-*  addBook
-*   -takes in the authordID, and the url 'hash' indentifier, and adds it to the DB
-*
-*/
-function addBook($book)
-{
-    //var_dump($bookAssocArray);
-    global $conn;
-
-    $authorID = 1;
-    $bookHashKey = $book->title; //title
-
-    //Add the book to the database
-    $query = "INSERT INTO books(authorID, titleHash) VALUES (?,?)";
-
-    if (!($stmt = $conn->prepare($query))) 
-    {
-        echo "Prepare failed: (" . $conn->errno . ") " . $conn->error;
-    }
-
-    $stmt->bind_param('is', $authorID, $bookHashKey);
-    $stmt->execute();
-    $insertID = $stmt->insert_id;
-    $stmt->close();
-
-    $bookDetails = array("ID"=>$insertID, "key"=>$bookHashKey);
-    return $bookDetails;
-};
-
-
-function syncBook($properBook)
+function syncBook($properBook, $op)
 {
     global $conn;
 
     //For book
-    $booksID = $properBook->id;
     $title = $properBook->title;
     $pages = $properBook->pages;
     $author = $properBook->author;
@@ -63,14 +19,23 @@ function syncBook($properBook)
     $booksID = 1;
     $jsonID = 1;
 
-
-
-    $bookQuery = "INSERT INTO books(authorID, title)
-    VALUES (?,?)";
-    $stmt = $conn->prepare($bookQuery);
-    $stmt->bind_param("is", $author, $title);
-    $stmt->execute();
-    $booksID = $stmt->insert_id;
+    if($op == "post") {
+        $bookQuery = "INSERT INTO books(authorID, title)
+        VALUES (?,?)";
+        $stmt = $conn->prepare($bookQuery);
+        $stmt->bind_param("is", $author, $title);
+        $stmt->execute();
+        $booksID = $stmt->insert_id;
+    }
+    elseif($op == "put"){
+        $booksID = $properBook->id;
+        $bookQuery = "UPDATE books 
+        set title=?
+        WHERE ID =?";
+        $stmt = $conn->prepare($bookQuery);
+        $stmt->bind_param("si", $title, $booksID);
+        $stmt->execute();
+    }
 
     $pagesQuery = "INSERT INTO pages(choiceDialog, parentID, title, content, booksID, jsonID)
     VALUES (?, ?, ?, ?, ?, ?)
@@ -99,33 +64,6 @@ function getBookWithID($bookID)
     $getBookQuery = "SELECT *
     FROM  pages 
     WHERE booksID = $bookID
-    ";
-
-    $result = $conn->query($getBookQuery);
-    $pages = array();
-
-    while($row = $result->fetch_array(MYSQLI_ASSOC))
-    {
-        $pages[] = $row;
-    }
-
-
-    $properBook = array('id' => $bookID, 'pages' => $pages);
-
-    return $properBook;
-}
-
-function getBookWithHashTitle($titleHash)
-{
-    //$book = "{\"title\":\"$titleHash\"}";
-
-    $bookID = 1;
-
-    global $conn;
-
-    $getBookQuery = "SELECT *
-    FROM  pages 
-    WHERE booksID = (SELECT ID FROM books WHERE titleHash = \"$titleHash\") 
     ";
 
     $result = $conn->query($getBookQuery);
@@ -176,7 +114,7 @@ function createUser($actualName, $emailAcct, $username, $password)
     $query = "INSERT INTO users(actualName, email, username, password)
     VALUES ('$actualName', '$emailAcct', '$username', '$password')";
     $result = $conn->query($query);
-    
+
     return $result;
 }
 
@@ -209,15 +147,10 @@ $app->get('/', function(){
     include 'frontpage/frontpage.php';
 });
 
-/*
-*Post: indexer
-*-This should save an entire "book".
-*-Retruns book ID
-*/
 $app->post('/sync/indexer/', function() use($app){
     $bookToAdd = $app->request();
     $bookToAdd = json_decode($bookToAdd->getBody()); 
-    $result = syncBook($bookToAdd);
+    $result = syncBook($bookToAdd, "post");
     if($result["result"]=="success") {
         $bookID = $result["bookID"];
         echo "{\"result\":\"success\", \"id\":\"$bookID\"}";
@@ -227,11 +160,10 @@ $app->post('/sync/indexer/', function() use($app){
         var_dump($result);
     }
 });
-
 $app->put('/sync/indexer/', function() use($app){
     $bookToAdd = $app->request();
     $bookToAdd = json_decode($bookToAdd->getBody()); 
-    $result = syncBook($bookToAdd);
+    $result = syncBook($bookToAdd, "put");
     if($result["result"]=="success") {
         $bookID = $result["bookID"];
         echo "{\"result\":\"success\", \"id\":\"$bookID\"}";
@@ -240,12 +172,6 @@ $app->put('/sync/indexer/', function() use($app){
         echo "error";
         var_dump($result);
     }
-});
-
-
-//If the user is trying to read "nothing", sned them to index
-$app->get('/read/', function() use($app) {
-    $app->redirect('/');
 });
 
 $app->get('/readID/:bookID', function($bookID){
@@ -254,12 +180,6 @@ $app->get('/readID/:bookID', function($bookID){
     $properBook = getBookWithID($bookID);
     loadBookViewer($properBook);
     /*Load the book given the ID*/
-});
-
-$app->get('/read/:bookHash', function($bookHash){
-    global $conn;
-    $properBook = getBookWithHashTitle($bookHash);    
-    loadBookViewer($properBook);
 });
 
 $app->get('/create/', function() use($app) {
