@@ -59,3 +59,14 @@ form {
 	font-size: 16px;
 	cursor: pointer;
 }
+
+.container.library {
+	text-align: center;
+}
+
+a.bookListing {
+	width: 4em;
+	background: #333;
+	color: #000;
+	line-height: 3em;
+}

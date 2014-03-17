@@ -85,14 +85,14 @@ function loadBookViewer($properBook)
     require('viewer/viewer.php');
 }
 
-function getRecentStories(){
+function getRecentStories($rangeX, $rangeY){
     global $conn;
 
-    $query = "SELECT * 
-    FROM books
-    LIMIT 0, 30";
+    $getBookQuery = "SELECT *
+    FROM  books
+    ";
 
-    $result = $conn->query($query);
+    $result = $conn->query($getBookQuery);
 
     $books = array();
 
@@ -100,6 +100,7 @@ function getRecentStories(){
     {
         $books[] = $row;
     }
+
 
     return $books;
 }
@@ -249,9 +250,8 @@ $app->post('/user/create/', function() use($app){
 });
 
 $app->get('/home/', function() use($app){
-    //$stories = getRecentStories(0, 30);
-    //$myStories = getMyStories(0, 30);
-    //loadUserHomePage($stories, $myStories);
+    $publicBooks = getRecentStories(0, 30);
+    include 'management/user/home/home.php';
 });
 
 $app->run();
