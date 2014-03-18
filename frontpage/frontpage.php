@@ -36,8 +36,8 @@
 
 				<div id="nextChoices">
 					<div class="innerBox">
-						<a class="index option"> href="home">Find an adventure!</a>
-						<a class="index option"> href="frontpage/page4.html">Sign up for Beta Access!</a>
+						<a class="index option" href="home">Find an adventure!</a>
+						<a class="index option" href="frontpage/page4.html">Sign up for Beta Access!</a>
 					</div>
 				</div>	
 			</div>
