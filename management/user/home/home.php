@@ -30,6 +30,11 @@
 					</a>
 				<?php } ?>
 			</div>
+			<div class="cta">
+				<a href="../create" data-id="<%= choice.id %>" class="index option">
+					Make An Adventure
+				</a>
+			</div>
 		</div>
 	</body>
 </html>
