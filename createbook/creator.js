@@ -95,8 +95,6 @@ $(function(){
 				choices: choicesJSON
 			}
 
-			console.log(tempJSON);
-
 			this.$el.html(this.template(tempJSON));
 			return this;
 		}
@@ -109,33 +107,20 @@ $(function(){
 			return 'index.php/sync/indexer/';
 		},
 
-		initialize: function() {
-
-		},
-
 		syncToServer: function() {
 
 			var that = this;
 			var response = this.save(this.model,{
 				success:function(model, response, options){
-
-					if(response.result == "success")
-					{
-						console.log("wooh");
+					if(response.result == "success"){
 						that.model.id = response.id;
 					}
-
 				},
 				error:function(model, response, options){
 					console.error("Could not save to the server.")
 				}
 			});
-
-			/*
-			*In basic terms, the toJSON() is the encapsulator for the data being
-			*sent to the server. If we ever want to send anything else on saves,
-			*add it in that some how.
-			*/
+			
 		},
 		toJSON: function() {
 			properBook = {
@@ -200,9 +185,6 @@ $(function(){
 
 		getChoicesFor: function(bookID){
 			var choices = this.where({"parentPage": bookID});
-
-			console.log(choices);
-
 			return choices;
 		}
 	});

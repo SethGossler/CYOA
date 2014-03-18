@@ -203,3 +203,7 @@ a.bookListing span {
 	display: inline-block;
 	line-height: 1.25em;
 }
+
+a.bookListing:hover {
+	box-shadow: 0px 0px 1px #333;
+}
