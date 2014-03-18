@@ -29,38 +29,15 @@
 						<p>
 							Bored and lonely, you find yourself surfing the internet. Site after site, image after image - you're just burning time, waiting for something to catch your attention ...
 							<br><br>
-							Suddenly, and I mean unexpectedly, you find yourself on, "www.ChooseYourOwnAdventure.in". A website that, despite it's simplistic looks, and noticeably warming charm, has something that most sites don't -- interactivity! Intrigued, and filled with an adventurous spirit, you feel like you should click on something ... 
-							<br><br>
-							What do you want to do on, "Choose Your Own Adventure"?
+							Suddenly, and I mean unexpectedly, you find yourself on, "CYOA". A website that, despite it's simplistic looks, and noticeably warming charm, has something that most sites don't -- interactivity! Intrigued, and filled with an adventurous spirit, you feel like you should click on something ... 
 						</p>
 					
 				</div>
 
-				<div id="library" style="display:none;">
-
-					<center><h2>Available Adventures</h2></center>
-					<a href="/read/23">
-						<div class="book">
-							<div class="image">
-								<img src="../../frontpage/manwithorange.jpg"></img>
-							</div>
-							<div class="bookDetail">
-								<h2><i>"Man With An Orange"</i></h2>
-								<p>A story about a man, and his encounter with a simple, straight from the box, overly ordinary, nothing all that important - orange.</p>
-							</div>
-						</div>
-					</a>
-					<br><br>
-					<a style="font-size:20px;" href="/create/">Psssst : This is the Alpha-Adventure Maker<br>(try it out before I change my mind)</a>
-					<br>
-				</div>
 				<div id="nextChoices">
 					<div class="innerBox">
 						<div class="index option one">
-							<a href="readID/23">Go on an adventure!</a>
-						</div>
-						<div class="index option two">
-							<a href="create">Make an adventure!</a>
+							<a href="home">Find an adventure!</a>
 						</div>
 						<div class="index option three">
 							<a href="frontpage/page4.html">Sign up for Beta Access!</a>
