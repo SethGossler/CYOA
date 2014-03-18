@@ -65,8 +65,9 @@ form {
 }
 
 a.bookListing {
+	display: inline-block;
 	width: 4em;
 	background: #333;
 	color: #000;
-	line-height: 3em;
+	line-height: 7em;
 }

@@ -32,8 +32,12 @@ $(function(){
 		initialize: function(){
 			var that = this;
 			$(".container").html(this.$el);
+
 			this.model = new bookCollection();
+			this.model.title = loadedBook.book.title;
+
 			this.listenTo(this.model, "update", this.render);
+
 			for(var i = 0; i < loadedPages.length; i++){
 				var tempJSON = {
 					id: parseInt(loadedPages[i].jsonID),
@@ -57,7 +61,8 @@ $(function(){
 			}
 			var tempJSON = {
 				link: "42",
-				title: this.model.bookMark.get("title"),
+				title: this.model.title,
+				pageTitle: this.model.bookMark.get("title"),
 				content: this.model.bookMark.get("content"),
 				choices: choicesJSON
 			}

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Make An Adventure</title>
+		<title>CYOA: Make An Adventure</title>
 		<link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
 
 		<!-- Bootstrap Framework -->
@@ -20,17 +20,17 @@
 		<div class="container">
 			<script type="text/template" id="page_tpl">
 				<div id="subPageHeader">
-					<a id="backAPage" class="back_btn">&lt;&nbsp;previous page</a>
+					<a id="backAPage" target="_blank" class="back_btn">&lt;&nbsp;previous page</a>
 					<div style="height:2em; text-align:center" id="readLink">
-						<a href="#<%= link %>">Link!</a>
+						<% if(id){ %><a href="readID/<%= id %>">Link!</a><% } %>
 					</div>	
-					<h1 class="subPageTitle"><%= title %></h1> 
+					<input id="bookTitle" class="value subPageTitle" value="<%= title %>"></input> 
 				</div>
 
 				<div class="content span8 offset2">
 					<div id="writingArea">
 						
-						<input id="bookTitle" class="title" value="<%= title %>"></input>
+						<input id="pageTitle" class="title" value="<%= pageTitle %>"></input>
 						<textarea class="text storyText"><%= content %></textarea>
 
 					</div>

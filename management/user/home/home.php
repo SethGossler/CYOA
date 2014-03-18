@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Find An Adventure</title>
+		<title>CYOA: Find An Adventure</title>
 		<link rel="shortcut icon" href="/cyoa.ico">	
 
 		<!--google fonts-->
@@ -21,13 +21,15 @@
 		</script>
 	</head>
 	<body>
-		<div class="container library">
-			<center><h1>Pick An Adventure!</h1></center>
-			<?php foreach ($publicBooks as $key => $book) {?>
-				<a href="../readID/<?php echo $book['ID'];?>" class="bookListing">
-					<span><?php echo $book['title']; ?></span>
-				</a>
-			<?php } ?>
+		<div class="container">
+			<h1 class="title">Pick An Adventure!</h1>
+			<div class="library">
+				<?php foreach ($publicBooks as $key => $book) {?>
+					<a href="../readID/<?php echo $book['ID'];?>" class="bookListing">
+						<span><?php echo $book['title']; ?></span>
+					</a>
+				<?php } ?>
+			</div>
 		</div>
 	</body>
 </html>

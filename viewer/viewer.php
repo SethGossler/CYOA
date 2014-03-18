@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Make An Adventure</title>
+		<title>CYOA: Choose Your Adventure</title>
 		<link rel="shortcut icon" href="/cyoa.ico">	
 
 		<!--google fonts-->
@@ -20,11 +20,9 @@
 		<script src="../viewer/viewer.js"></script>
 		<!--loading data-->
 		<script>
-
 			<?php echo "var loadedBook = ".json_encode($properBook); ?>
 
 			<?php echo "var loadedPages = ".json_encode($properBook["pages"]); ?>
-
 		</script>
 	</head>
 	<body>
@@ -33,13 +31,12 @@
 			<script type="text/template" id="viewer_tpl">
 				<div id="subPageHeader">
 					<a id="backAPage" class="back_btn">&lt;&nbsp;previous page</a>
-					<h1 class="subPageTitle">Choose Your Own Adventure</h1> 
+					<h1 class="subPageTitle"><%= title  %></h1> 
 				</div>
-				<h1 id="bookTitle" class="title">Choose Your Own Adventure</h1>
+				<h1 id="bookTitle" class="title"><%= pageTitle  %></h1>
 				<div class="content span8 offset2">
 
 					<div id="writingArea">
-						<!--<h1 class="title"><%- title %></h1>-->
 						<p>
 							<%= content %>
 						</p>

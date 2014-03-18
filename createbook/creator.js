@@ -7,7 +7,7 @@ $(function(){
 			id: 0,
 			choiceDialog:'place holder',
 			parentPage: 0,
-			title: 'title',
+			title: 'page title',
 			content: 'content'
 		}
 	});
@@ -21,10 +21,15 @@ $(function(){
 			"click .create.index": "choiceSwap",
 			"blur input.dialog": "dialogChange",
 			"click #backAPage": "backAPage",
-			"blur input#bookTitle": "titleChange"
+			"blur input#bookTitle": "titleChange",
+			"blur input#pageTitle": "pageTitleChange"
 		},
 
 		titleChange: function(e){
+			this.model.title = $(e.target).val();
+		},
+
+		pageTitleChange: function(e){
 			this.model.bookMark.set("title", $(e.target).val());
 		},
 
@@ -83,8 +88,9 @@ $(function(){
 				choicesJSON.push(choices[i].toJSON());
 			}
 			var tempJSON = {
-				link: "42",
-				title: this.model.bookMark.get("title"),
+				id: this.model.id,
+				title: this.model.title,
+				pageTitle: this.model.bookMark.get("title"),
 				content: this.model.bookMark.get("content"),
 				choices: choicesJSON
 			}
@@ -145,7 +151,7 @@ $(function(){
 	});
 
 	var bookCollection = Backbone.Collection.extend({
-		title: "title",
+		title: "book title",
 		model: page,
 		bookMark: -1,
 		indexer: function(){

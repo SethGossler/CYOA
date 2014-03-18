@@ -7,7 +7,6 @@
 body {
 	font-family: 'Open Sans', serif;
 	background-color:#eee;
-	font-size: 62.5%;
 }
 
 .container {
@@ -38,6 +37,7 @@ a.back_btn{
 
 .back_btn:hover {
 	color: #000;
+	text-decoration: none;
 }
 
 .subPageTitle {
@@ -180,4 +180,26 @@ textarea.storyText {
 	min-height: 12em;
 	max-width: 770px;
 	resize:none;
+}
+
+.library {
+	padding: 3em;
+	width: 74%;
+	margin: 0 auto;
+}
+
+a.bookListing {
+	display: inline-block;
+	width: 9em;
+	background: #efefef;
+	color: #000;
+	line-height: 14em;
+	text-align: center;
+	box-shadow: 1px 1px 5px #333;
+	padding: 1em;
+	margin: 1em;
+}
+a.bookListing span {
+	display: inline-block;
+	line-height: 1.25em;
 }

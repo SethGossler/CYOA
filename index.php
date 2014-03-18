@@ -61,21 +61,27 @@ function getBookWithID($bookID)
 {
     global $conn;
 
-    $getBookQuery = "SELECT *
+    // get pages
+    $getPageQuery = "SELECT *
     FROM  pages 
     WHERE booksID = $bookID
     ";
-
-    $result = $conn->query($getBookQuery);
+    $result = $conn->query($getPageQuery);
     $pages = array();
-
     while($row = $result->fetch_array(MYSQLI_ASSOC))
     {
         $pages[] = $row;
     }
 
+    // get book
+    $getBookQuery = "SELECT *
+    FROM books
+    WHERE id = $bookID
+    ";
+    $resultTwo = $conn->query($getBookQuery);
+    $book = $resultTwo->fetch_array(MYSQLI_ASSOC);
 
-    $properBook = array('id' => $bookID, 'pages' => $pages);
+    $properBook = array('book' => $book, 'id' => $bookID, 'pages' => $pages);
 
     return $properBook;
 }
