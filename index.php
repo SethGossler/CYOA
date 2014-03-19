@@ -223,7 +223,13 @@ $app->get('/readID/:bookID', function($bookID){
 });
 
 $app->get('/create/', function() use($app) {
-    include 'createbook/create.php';
+    global $user;
+    if($user){
+        include 'createbook/create.php';
+    }
+    else {
+       $app->redirect('/home');
+    }
 });
 /*
 
