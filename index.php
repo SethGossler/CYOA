@@ -126,7 +126,7 @@ function createUser($actualName, $emailAcct, $username, $password)
 }
 
 
-function userLoginExists($username, $password){
+function getUser($username, $password){
     global $conn;
 
     $password = sha1($password);
@@ -203,8 +203,6 @@ $app->get('/sync/indexer/', function() use($app){
     var_dump($content);
 });
 
-
-
 $app->get('/user/', function() use($app){
     $userLoggedIn = $app->getCookie('user');
     if(!$userLoggedIn)
@@ -213,9 +211,13 @@ $app->get('/user/', function() use($app){
     }
     else
     {
-       echo "You're logged in!";
-       $app->redirect('/home');
+       $app->redirect('/code/cyoa/home');
     }
+});
+
+$app->get('/user/new', function() use($app){
+    include 'management/user/create/create.php';     
+
 });
 
 $app->post('/user/login/', function() use($app){
@@ -224,12 +226,13 @@ $app->post('/user/login/', function() use($app){
     $password = $req->post("password");
     $userInfo = array('username' => $username);
 
-    if(userLoginExists($username, $password))
+    $user = getUser($username, $password);
+    if($user != false)
     {
         echo "logged in!";
         date_default_timezone_set('America/New_York');
         $app->setCookie('user', $username, '2 days');
-        $app->redirect('/home');
+        $app->redirect('/code/cyoa/home');
     }
     else
     {
@@ -247,7 +250,7 @@ $app->post('/user/create/', function() use($app){
 
     $didUserCreate = createUser($actualName, $emailAcct, $newUsername, $newPassword);
     if($didUserCreate){
-        echo "user created!";
+        include 'management/user/login/login.php';     
     }
     else
     {
@@ -255,7 +258,7 @@ $app->post('/user/create/', function() use($app){
     }
 });
 
-$app->get('/home/', function() use($app){
+$app->get('/home', function() use($app){
     $publicBooks = getRecentStories(0, 30);
     include 'management/user/home/home.php';
 });

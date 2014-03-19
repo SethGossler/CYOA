@@ -1,23 +1,33 @@
 <html>
-<head>
-	<title>Login Account</title>
-</head>
-<body>
-	<a href="#cs">login account</a>
-	<form method="post" action="/user/login/">
-		<input name="name">Name</input>
-		<input name="password">Password</input>
-		<input type="submit" value="login!"></input>
-	</form>
+	<head>
+		<title>CYOA - Login Account</title>
+		<link rel="shortcut icon" href="/cyoa.ico">	
 
-	<br>
-	<a href="#cs">make account</a>
-	<form method="post" action="/user/create/">
-		<input name="actual">Your Real Name</input>
-		<input name="email">Your Email Plz</input>
-		<input name="name">Name</input>
-		<input name="password">Password</input>
-		<input type="submit" value="create!"></input>
-	</form>	
-</body>
+		<!--google fonts-->
+		<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>	
+		
+		<!-- Bootstrap Framework -->
+		<link rel="stylesheet" type="text/css" href="../viewer/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="../viewer/bootstrap-responsive.min.css">
+		<link rel="stylesheet" type="text/css" href="../common/CSS/viewer.css"></link>
+		<link rel="stylesheet" type="text/css" href="../management/user/user.css"></link>
+
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+
+	</head>
+	<body>
+		<div class="container login">
+			<div class="form">
+				<h1>login account</h1>
+				<form method="post" action="login">
+					<label>name</label>
+					<input name="name"/>
+					<label>password</label>
+					<input name="password"/>
+					<input class="loginBtn" type="submit" value="login!"/>
+				</form>
+				<a href="new">make account</a>
+			</div>
+		</div>
+	</body>
 </html>

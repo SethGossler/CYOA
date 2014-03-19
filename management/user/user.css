@@ -1,0 +1,42 @@
+.login {
+	font-family: 'Open Sans', serif;
+}
+
+.login .form {
+	width: 30em;
+	padding: 1.5em;
+	margin: 0 auto;
+	text-align: right;
+}
+
+.login form {
+	padding-top: 1.5em;
+}
+
+.login label {
+	display: block;
+	text-align: left;
+	font-weight: 300;
+	font-size: 1.8em;
+
+}
+
+.login input {
+	display: block;
+	margin: .25em auto 1em auto;
+	width: 100%;
+	font-size: 1.5em;
+	height: auto;
+	line-height: 1em;
+}
+
+.login h1 {
+	font-size: 3.6em;
+	width: 100%;
+	text-align: center;
+	font-weight: 300;
+}
+
+.login .loginBtn {
+	margin: 0 0 0 auto;
+}
