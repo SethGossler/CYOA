@@ -26,7 +26,7 @@
 					<input name="password"/>
 					<input class="loginBtn" type="submit" value="login!"/>
 				</form>
-				<a href="new">make account</a>
+				<a href="user/new">make account</a>
 			</div>
 		</div>
 	</body>

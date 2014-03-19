@@ -211,7 +211,7 @@ $app->get('/user/', function() use($app){
     }
     else
     {
-       $app->redirect('/code/cyoa/home');
+       $app->redirect('/home');
     }
 });
 
@@ -232,7 +232,7 @@ $app->post('/user/login/', function() use($app){
         echo "logged in!";
         date_default_timezone_set('America/New_York');
         $app->setCookie('user', $username, '2 days');
-        $app->redirect('/code/cyoa/home');
+        $app->redirect('/home');
     }
     else
     {
