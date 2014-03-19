@@ -148,7 +148,40 @@ function getUser($username, $password){
 
 \Slim\Slim::registerAutoloader();
 
+$user = NULL;
+class userCheck extends \Slim\Middleware
+{
+    public function call()
+    {
+        // Get reference to application
+        $app = $this->app;
+
+        $this->checkLogin($app);
+
+        //run
+        $this->next->call();
+    }
+
+    public function checkLogin($app)
+    {
+        global $user;
+        $userLoggedIn = $app->getCookie('user');
+        if(!$userLoggedIn)
+        {
+            $user = false;
+        }
+        else
+        {
+            $user = true;
+        }
+
+    }
+}
+
+
 $app = new \Slim\Slim();
+
+$app->add(new userCheck());
 
 $app->get('/', function(){
     include 'frontpage/frontpage.php';
@@ -259,6 +292,7 @@ $app->post('/user/create/', function() use($app){
 });
 
 $app->get('/home', function() use($app){
+    global $user;
     $publicBooks = getRecentStories(0, 30);
     include 'management/user/home/home.php';
 });

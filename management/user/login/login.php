@@ -19,7 +19,7 @@
 		<div class="container login">
 			<div class="form">
 				<h1>login account</h1>
-				<form method="post" action="login">
+				<form method="post" action="user/login">
 					<label>name</label>
 					<input name="name"/>
 					<label>password</label>

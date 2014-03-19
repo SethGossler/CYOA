@@ -31,9 +31,17 @@
 				<?php } ?>
 			</div>
 			<div class="cta">
+				<?php if($user):?>
 				<a href="create" data-id="<%= choice.id %>" class="index option">
 					Make An Adventure
 				</a>
+				<?php else:?>
+
+				<a href="/user" data-id="<%= choice.id %>" class="index option">
+					Login!
+				</a>
+
+				<?php endif;?>
 			</div>
 		</div>
 	</body>
