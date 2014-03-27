@@ -1,6 +1,6 @@
 <?php
 // connect to the server
-$conn = new mysqli('localhost', 'root', '3Bl1ndM1c3', 'cyoaAPP');
+$conn = new mysqli('localhost', 'root', '3Bl1ndM1c3', 'cyoaapp');
 if (mysqli_connect_errno()) {
 	echo 'MYSQLI error';
 }
