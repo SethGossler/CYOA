@@ -30,6 +30,18 @@
 					</a>
 				<?php } ?>
 			</div>
+
+			<?php if($user):?>
+			<h1 class="title">Your Books!</h1>
+			<div class="library">
+				<?php foreach ($userBooks as $key => $book) {?>
+					<a href="readID/<?php echo $book['ID'];?>" class="bookListing">
+						<span><?php echo $book['title']; ?></span>
+					</a>
+				<?php } ?>
+			</div>
+			<?php endif; ?>
+
 			<div class="cta">
 				<?php if($user):?>
 				<a href="create" data-id="<%= choice.id %>" class="index option">

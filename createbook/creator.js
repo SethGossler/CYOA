@@ -1,6 +1,6 @@
 //CYOA Creator
 
-$(function(){
+
 
 	var page = Backbone.Model.extend({
 		defaults: {
@@ -125,7 +125,7 @@ $(function(){
 		toJSON: function() {
 			properBook = {
 				pages: this.model.toJSON(),
-				author: 42,
+				author: user.getID(),
 				title: this.model.title,
 				id: this.model.id
 			}
@@ -189,6 +189,34 @@ $(function(){
 		}
 	});
 
+
+$(function(){
+	console.log("app:init");
+	console.log(document.cookie)
 	var cyoaApp = new bookView();
 	cyoaApp.render();
 });
+
+//others
+
+user = {
+	getID: function(){
+		return getCookie("userid");
+	},
+	getUsername: function(){
+		return getCookie("user");
+	}
+}
+
+
+function getCookie(cname)
+{
+var name = cname + "=";
+var ca = document.cookie.split(';');
+for(var i=0; i<ca.length; i++) 
+  {
+  var c = ca[i].trim();
+  if (c.indexOf(name)==0) return c.substring(name.length,c.length);
+  }
+return "";
+}

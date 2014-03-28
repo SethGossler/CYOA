@@ -91,6 +91,27 @@ function loadBookViewer($properBook)
     require('viewer/viewer.php');
 }
 
+function getAuthorStories($userID) {
+    global $conn;
+
+    $getBookQuery = "SELECT *
+    FROM  books
+    WHERE authorID='$userID'
+    ";
+
+    $result = $conn->query($getBookQuery);
+
+    $books = array();
+
+    while($row = $result->fetch_array(MYSQLI_ASSOC))
+    {
+        $books[] = $row;
+    }
+
+
+    return $books;    
+}
+
 function getRecentStories($rangeX, $rangeY){
     global $conn;
 
@@ -136,14 +157,18 @@ function getUser($username, $password){
 
     $result = $conn->query($query);
 
+
+    $user = array();
     if($result->num_rows == 1)
     {
-        return true;
+        $user["exists"] = true;
+        $user["data"] = $result->fetch_array(MYSQLI_ASSOC);
     }
     else
     {
-        return false;
+        $user["exists"] = false;
     }
+    return $user;
 }
 
 \Slim\Slim::registerAutoloader();
@@ -263,14 +288,14 @@ $app->post('/user/login/', function() use($app){
     $req = $app->request();
     $username = $req->post('name');
     $password = $req->post("password");
-    $userInfo = array('username' => $username);
 
     $user = getUser($username, $password);
-    if($user != false)
+    if($user["exists"] != false)
     {
-        echo "logged in!";
         date_default_timezone_set('America/New_York');
         $app->setCookie('user', $username, '2 days');
+        $app->setCookie('userid', $user["data"]["ID"], '2 days');
+
         $app->redirect('/home');
     }
     else
@@ -300,6 +325,10 @@ $app->post('/user/create/', function() use($app){
 $app->get('/home', function() use($app){
     global $user;
     $publicBooks = getRecentStories(0, 30);
+    if($user) {
+        $userID = $app->getCookie("userid");
+        $userBooks = getAuthorStories($userID);
+    }
     include 'management/user/home/home.php';
 });
 
